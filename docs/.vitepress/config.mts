@@ -103,7 +103,7 @@ export default defineConfig({
   description: '🛹 专为 uni-app 开发的摸鱼插件库，包含路由、CI/CD 等插件，助你轻松摸鱼！',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['meta', { name: 'algolia-site-verification', content: '223BF8314C40C6AE' }],
+    ['meta', { name: 'algolia-site-verification', content: '8080794D00986996' }],
     ['script', {}, `
 var _hmt = _hmt || [];
 (function() {
