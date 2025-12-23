@@ -1,4 +1,4 @@
-name: 向 Wot Starter 反馈 Bug
+name: 向 My Uni 反馈 Bug
 description: 创建一个 Issue 描述你遇到的问题。
 title: '[Bug 上报] 请在此填写标题'
 labels: ['🐞bug: need confirm']
@@ -7,15 +7,28 @@ body:
     attributes:
       value: |
         在向我们提交 Bug 报告前，请优先使用以下方式尝试解决问题：
-        - 在组件文档 [wot-starter](https://starter.wot-ui.cn/) 确认使用方法是否正确
-        - 尝试在 [Issue](https://github.com/wot-ui/wot-starter/issues) 列表中搜索相同问题
+        - 在组件文档 [my-uni](https://my-uni.wot-ui.cn/) 确认使用方法是否正确
+        - 尝试在 [Issue](https://github.com/Moonofweisheng/my-uni/issues) 列表中搜索相同问题
 
   - type: input
     id: version
     attributes:
-      label: Wot Starter 版本号
-      description: 你正在使用的模板版本号（请填写 package.json 里版本）
+      label: My Uni 版本号
+      description: 你正在使用的 My Uni 版本号（请填写 package.json 里版本）
       placeholder: 例如：0.1.1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: 插件
+      multiple: true
+      description: 选择对应的插件
+      options:
+        - router
+        - ci
+        - 其他
     validations:
       required: true
 

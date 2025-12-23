@@ -1,9 +1,10 @@
 {
   "name": "my-uni",
   "type": "module",
-  "version": "1.2.1",
+  "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@9.9.0",
+  "description": "专为 uni-app 开发的摸鱼插件库，包含路由、CI/CD 等插件，助你轻松工作，天天摸鱼！",
   "license": "MIT",
   "engines": {
     "node": ">=20.19.0 || >=22.12.0 || >=24.0.0"
@@ -57,9 +58,9 @@
     "lint:docs": "eslint docs --ext .js,.ts,.vue,.mts,.cts --ignore-pattern '**/*.md'",
     "prepare": "husky install",
     "commit": "git-cz",
-    "release-major": "standard-version --release-as major",
-    "release-minor": "standard-version --release-as minor",
-    "release-patch": "standard-version --release-as patch",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish",
     "alova-gen": "alova gen -f",
     "docs:dev": "pnpm -F docs docs:dev",
     "docs:build": "pnpm run build:router && pnpm run build:h5 && pnpm -F docs docs:build",
@@ -97,6 +98,7 @@
   },
   "devDependencies": {
     "@alova/wormhole": "^1.1.2",
+    "@changesets/cli": "^2.29.8",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@dcloudio/types": "^3.4.12",
@@ -126,6 +128,7 @@
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.39.1",
+    "esno": "^4.7.0",
     "git-cz": "^4.9.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.9",

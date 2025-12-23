@@ -1,7 +1,7 @@
 {
   "name": "@my-uni/router",
-  "version": "0.1.6",
-  "description": "Lightweight router for uni-app, monorepo subpackage.",
+  "version": "0.0.0",
+  "description": "轻量级 uni-app vue3 路由库",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

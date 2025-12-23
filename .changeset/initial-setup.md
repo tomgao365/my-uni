@@ -1,0 +1,3 @@
+---
+"@my-uni/router": minor
+---
