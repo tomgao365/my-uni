@@ -1,6 +1,8 @@
 # 更新日志 
 
 
+### [0.0.4](https://github.com/Moonofweisheng/my-uni/compare/v0.0.3...v0.0.4) (2025-12-23)
+
 ### [0.0.3](https://github.com/Moonofweisheng/my-uni/compare/v0.0.2...v0.0.3) (2025-12-23)
 
 ### 0.0.2 (2025-12-23)
