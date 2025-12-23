@@ -130,9 +130,9 @@ var _hmt = _hmt || [];
     search: {
       provider: 'algolia',
       options: {
-        appId: 'ITS8LMWRYB',
-        apiKey: '259280bc7bfdf1686586ed7680c68a4c',
-        indexName: 'wot_demo_docs_netlify_app_its8lmwryb_pages',
+        appId: '72AU0TP7ER',
+        apiKey: 'e9cb5ba76696a34dc172d20ac69c8267',
+        indexName: 'my_uni_wot_ui_cn_72au0tp7er_pages',
       },
     },
     footer: {
