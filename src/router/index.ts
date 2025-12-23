@@ -1,3 +1,12 @@
+/*
+ * @Author: weisheng
+ * @Date: 2025-12-22 14:19:12
+ * @LastEditTime: 2025-12-23 11:29:41
+ * @LastEditors: weisheng
+ * @Description:
+ * @FilePath: /my-uni/src/router/index.ts
+ * 记得注释
+ */
 /// <reference types="@uni-helper/vite-plugin-uni-pages/client" />
 import { pages, subPackages } from 'virtual:uni-pages'
 

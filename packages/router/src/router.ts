@@ -1,0 +1,349 @@
+import { shallowRef, unref } from 'vue'
+import type { App } from 'vue'
+import type {
+  NavigationGuard,
+  NavigationGuardNext,
+  NavigationHookAfter,
+  NavType,
+  RouteBackRaw,
+  RouteLocationNormalized,
+  RouteLocationRaw,
+  Router,
+  RouterOptions,
+} from './types'
+import { START_LOCATION_NORMALIZED } from './types'
+import { getUrlParams, normalizeUrl, stringifyQuery } from './utils'
+
+// 注入 Key
+export const routerKey = Symbol('router')
+export const routeKey = Symbol('route')
+
+export function createRouter(options: RouterOptions): Router {
+  const currentRoute = shallowRef<RouteLocationNormalized>(
+    START_LOCATION_NORMALIZED,
+  )
+  const routes = options.routes || []
+  const beforeGuards: NavigationGuard[] = []
+  const afterGuards: NavigationHookAfter[] = []
+
+  // -------------------------
+  // 核心跳转逻辑
+  // -------------------------
+  function resolve(to: RouteLocationRaw): RouteLocationNormalized {
+    if (typeof to === 'string') {
+      return resolvePath(to)
+    }
+
+    // 处理 name 匹配
+    if (to.name) {
+      const route = routes.find(r => r.name === to.name)
+      if (!route) {
+        console.warn(`[router] Route with name '${to.name}' not found`)
+        return { ...START_LOCATION_NORMALIZED, path: '/' }
+      }
+      // 合并 params
+      const path = fillParams(route.path, to.params)
+      return {
+        path,
+        name: to.name,
+        params: to.params || {},
+        query: to.query || {},
+        hash: to.hash || '',
+        fullPath: stringifyQuery(path, to.query || {}),
+        meta: route.meta || {},
+      }
+    }
+
+    // 处理 path 匹配
+    if (to.path) {
+      return resolvePath(to.path, to.query)
+    }
+
+    return { ...START_LOCATION_NORMALIZED }
+  }
+
+  function resolvePath(path: string, query?: any): RouteLocationNormalized {
+    // 简单查找
+    // 注意：这里没有实现复杂的正则匹配，仅做简单全等或前缀匹配
+    // 实际项目中可能需要 path-to-regexp
+    const normalizedPath = normalizeUrl(path.split('?')[0])
+    const route = routes.find(
+      r => r.path === normalizedPath || r.aliasPath === normalizedPath,
+    )
+
+    const urlParams = getUrlParams(path)
+    const finalQuery = { ...urlParams, ...(query || {}) }
+
+    return {
+      path: normalizedPath,
+      name: route?.name,
+      params: {}, // path 模式下暂不解析 params
+      query: finalQuery,
+      hash: '',
+      fullPath: stringifyQuery(normalizedPath, finalQuery),
+      meta: route?.meta || {},
+    }
+  }
+
+  function fillParams(path: string, params?: Record<string, any>): string {
+    if (!params)
+      return path
+    let res = path
+    for (const key in params) {
+      res = res.replace(new RegExp(`:${key}`, 'g'), String(params[key]))
+    }
+    return res
+  }
+
+  // -------------------------
+  // 导航方法
+  // -------------------------
+  function push(to: RouteLocationRaw) {
+    return navigate(to, 'push')
+  }
+  function replace(to: RouteLocationRaw) {
+    return navigate(to, 'replace')
+  }
+  function replaceAll(to: RouteLocationRaw) {
+    return navigate(to, 'replaceAll')
+  }
+  function pushTab(to: RouteLocationRaw) {
+    return navigate(to, 'pushTab')
+  }
+  function back(back?: RouteBackRaw) {
+    if (back === undefined || typeof back === 'number') {
+      uni.navigateBack({
+        delta: (back ?? 1) as number,
+      })
+    }
+    else {
+      uni.navigateBack(back)
+    }
+  }
+
+  async function navigate(to: RouteLocationRaw, type: NavType) {
+    const targetLocation = resolve(to)
+    const fromLocation = unref(currentRoute)
+
+    // 1. 执行前置守卫
+    try {
+      await runGuardQueue(beforeGuards, targetLocation, fromLocation)
+    }
+    catch (error: any) {
+      if (error && (error.message === 'NavigationCancelled' || error.message === 'NavigationRedirect')) {
+        if (error.message === 'NavigationRedirect' && error.to) {
+          return navigate(error.to, type)
+        }
+        return Promise.reject(error)
+      }
+      return Promise.reject(error)
+    }
+
+    // 2. 执行实际跳转
+    const url = targetLocation.fullPath
+    // 优先使用参数中的 navType
+    const finalType
+      = (typeof to === 'object' && to.navType) || type || 'push'
+
+    performUniNavigate(finalType, url)
+
+    // 3. 更新当前路由 (注意：uni-app 页面栈变化后会自动触发 onLoad/onShow，这里主要是为了保持状态同步)
+    // 实际上 uni-app 的路由变化是异步的，这里更新可能早于页面加载
+    // 可以在 App.mixin 中再次校准
+    currentRoute.value = targetLocation
+
+    // 4. 执行后置守卫
+    afterGuards.forEach(guard => guard(targetLocation, fromLocation))
+
+    return Promise.resolve()
+  }
+
+  function performUniNavigate(type: NavType, url: string) {
+    switch (type) {
+      case 'push':
+        uni.navigateTo({ url })
+        break
+      case 'replace':
+        uni.redirectTo({ url })
+        break
+      case 'pushTab':
+        uni.switchTab({ url })
+        break
+      case 'replaceAll':
+        uni.reLaunch({ url })
+        break
+      case 'back':
+        uni.navigateBack({})
+        break
+      default:
+        uni.navigateTo({ url })
+    }
+  }
+
+  // -------------------------
+  // 守卫执行器
+  // -------------------------
+  async function runGuardQueue(
+    guards: NavigationGuard[],
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+  ) {
+    for (const guard of guards) {
+      await new Promise<void>((resolve, reject) => {
+        const next: NavigationGuardNext = (val) => {
+          if (val === false) {
+            reject(new Error('NavigationCancelled'))
+          }
+          else if (val === undefined) {
+            resolve()
+          }
+          else {
+            // 重定向
+            const error = new Error('NavigationRedirect')
+            ;(error as any).to = val
+            reject(error)
+          }
+        }
+
+        // 支持 Promise 返回和 next 回调两种模式
+        const res = guard(to, from, next)
+        if (res instanceof Promise) {
+          res.then((val) => {
+            // 如果 Promise 返回了 false 或 路径，也算作处理结果
+            if (val === false) {
+              reject(new Error('NavigationCancelled'))
+            }
+            else if (val === undefined || val === true) {
+              resolve()
+            }
+            else {
+              const error = new Error('NavigationRedirect')
+              ;(error as any).to = val
+              reject(error)
+            }
+          }).catch(reject)
+        }
+        else if (res !== undefined && typeof res !== 'function') {
+          // 同步返回值处理
+          if (res === false) {
+            reject(new Error('NavigationCancelled'))
+          }
+          else if (res === true) {
+            resolve()
+          }
+          else {
+            const error = new Error('NavigationRedirect')
+            ;(error as any).to = res
+            reject(error)
+          }
+        }
+        // 如果使用了 next，上面的逻辑会等待 next 调用
+      })
+    }
+  }
+
+  // -------------------------
+  // 注册 API
+  // -------------------------
+  function beforeEach(guard: NavigationGuard) {
+    beforeGuards.push(guard)
+    return () => {
+      const i = beforeGuards.indexOf(guard)
+      if (i > -1)
+        beforeGuards.splice(i, 1)
+    }
+  }
+
+  function afterEach(guard: NavigationHookAfter) {
+    afterGuards.push(guard)
+    return () => {
+      const i = afterGuards.indexOf(guard)
+      if (i > -1)
+        afterGuards.splice(i, 1)
+    }
+  }
+
+  // -------------------------
+  // Install
+  // -------------------------
+  function install(app: App) {
+    app.provide(routerKey, router)
+    app.provide(routeKey, currentRoute)
+
+    app.config.globalProperties.$Router = router
+    Object.defineProperty(app.config.globalProperties, '$Route', {
+      enumerable: true,
+      get: () => unref(currentRoute),
+    })
+
+    // Mixin 监听原生页面生命周期，同步路由状态
+    app.mixin({
+      onLoad(query: Record<string, any>) {
+        if (this.$mpType === 'page') {
+          // 小程序启动或页面加载时同步
+          // 这里简单处理：如果当前 currentRoute 还是初始状态，或者路径不匹配，则尝试同步
+          // 实际上 uni-app 多页面栈模型下，router 单例的 currentRoute 应该指向栈顶
+          syncRouteFromPage(router, query, afterGuards)
+        }
+      },
+      onShow() {
+        if (this.$mpType === 'page') {
+          syncRouteFromPage(router, undefined, afterGuards)
+        }
+      },
+    })
+  }
+
+  function syncRouteFromPage(router: Router, query?: any, afterGuards?: NavigationHookAfter[]) {
+    // 获取当前页面栈栈顶
+    const pages = getCurrentPages()
+    const page = pages[pages.length - 1] as any
+    if (page && page.route) {
+      const fullPath = page.$page?.fullPath || `/${page.route}`
+      const q = query || getUrlParams(fullPath)
+
+      // 避免重复更新
+      const newPath = `/${page.route}`
+
+      // 如果当前路由已经是最新路径，则跳过更新（避免 API 跳转时重复触发）
+      if (router.currentRoute.value.path === newPath) {
+        return
+      }
+
+      const from = unref(router.currentRoute)
+
+      // 查找 route 配置以获取 name/meta
+      const matched = router.routes.find(r => r.path === newPath || r.aliasPath === newPath)
+
+      const to: RouteLocationNormalized = {
+        path: newPath,
+        name: matched?.name,
+        meta: matched?.meta || {},
+        params: {}, // 原生页面无法直接获取 params，通常在 query 中
+        query: q,
+        hash: '',
+        fullPath: fullPath.startsWith('/') ? fullPath : `/${fullPath}`,
+      }
+
+      router.currentRoute.value = to
+
+      // 触发后置守卫（针对原生跳转/返回）
+      afterGuards?.forEach(guard => guard(to, from))
+    }
+  }
+
+  const router: Router = {
+    currentRoute,
+    routes,
+    push,
+    replace,
+    replaceAll,
+    pushTab,
+    back,
+    beforeEach,
+    afterEach,
+    install,
+  }
+
+  return router
+}

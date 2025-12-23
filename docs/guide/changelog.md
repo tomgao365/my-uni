@@ -1,71 +1,125 @@
-# 更新日志 
+# 更新日志
 
 
-### [1.2.1](https://github.com/wot-ui/wot-starter/compare/v1.2.0...v1.2.1) (2025-12-04)
+### [0.1.4](https://gitee.com/fant-mini/uni-mini-router/compare/v0.1.3...v0.1.4) (2023-08-09)
+
+
+### ✏️ Documentation | 文档
+
+* ✏️  增加联系方式 ([271c3db](https://gitee.com/fant-mini/uni-mini-router/commit/271c3db37fe4c95444d1f3676f8ea7b8948b50d0))
 
 
 ### 🐛 Bug Fixes | Bug 修复
 
-* **manualTheme:** 修复跟随系统自动切换主题失效的问题 ([380c702](https://github.com/wot-ui/wot-starter/commit/380c7026eeb37a12e9a2866b18bd70880efdfecc))
+* 🐛 修复前置导航守卫H5端打包后不执行的问题 ([13a1c11](https://gitee.com/fant-mini/uni-mini-router/commit/13a1c1180c9d4f53486fe275dd01071a1fa3240b))
 
-
-### ✨ Features | 新功能
-
-* **index:** 首页设置中新增"跟随系统"按钮 ([d031788](https://github.com/wot-ui/wot-starter/commit/d031788d4c9b31a7d030f17856f69f2d177eb1b8))
-* **logo:** 更新logo ([550caa2](https://github.com/wot-ui/wot-starter/commit/550caa243e423969745d62c3872dfae14976409a))
-
-
-### ✏️ Documentation | 文档
-
-* ✏️  更新 logo ([0e57c45](https://github.com/wot-ui/wot-starter/commit/0e57c45b94284320d5fdc3be6c082faf12ddcbad))
-* ✏️  首页添加 uni-ku 插件入口 ([a5b05c9](https://github.com/wot-ui/wot-starter/commit/a5b05c9091f5396c27c556ed23eed87b7f06fef0))
-* ✏️  文档增加显示版本号 ([10b7078](https://github.com/wot-ui/wot-starter/commit/10b707810529af53bd2a85fca6624807b5b2d9ec))
-* ✏️  移动非主包必需示例页面到分包中 ([#43](https://github.com/wot-ui/wot-starter/issues/43)) ([3d7a076](https://github.com/wot-ui/wot-starter/commit/3d7a07619cf4b84c26a91b5028b2635bcc6d44ff)), closes [#35](https://github.com/wot-ui/wot-starter/issues/35)
-* ✏️  update logo ([6b9e4f9](https://github.com/wot-ui/wot-starter/commit/6b9e4f9e66d7be10b1e678b46472c9e44a270fc3))
-
-## [1.2.0](https://github.com/wot-ui/wot-starter/compare/v1.1.0...v1.2.0) (2025-11-26)
-
-
-### ✨ Features | 新功能
-
-* ✨ 合并模板与文档项目开发便利性优化 ([#41](https://github.com/wot-ui/wot-starter/issues/41)) ([646d215](https://github.com/wot-ui/wot-starter/commit/646d2158c96dcf83518ed22bc27cc8e20f2ed0d2)), closes [#35](https://github.com/wot-ui/wot-starter/issues/35)
-* ✨ 支持 esm 并更新 unocss 和 [@uni-helper](https://github.com/uni-helper) 插件 ([#39](https://github.com/wot-ui/wot-starter/issues/39)) ([f433b49](https://github.com/wot-ui/wot-starter/commit/f433b49023c572488254b18584a4dbca0ba66336))
-
-
-### ✏️ Documentation | 文档
-
-* ✏️  添加 vite base ([b6f5cf8](https://github.com/wot-ui/wot-starter/commit/b6f5cf83084d0cc04bc94c9714722a7a4c9e6327))
-* ✏️  增加更新日志入口 ([7037d8f](https://github.com/wot-ui/wot-starter/commit/7037d8f10a9aa0274d5cc5d7afc8978342f96f1a))
-
-## [1.1.0](https://github.com/wot-ui/wot-starter/compare/v1.0.0...v1.1.0) (2025-11-12)
-
-
-### ✨ Features | 新功能
-
-* ✨ 添加 uni_modules 插件引入示例 ([8493761](https://github.com/wot-ui/wot-starter/commit/8493761ad6ea4e6478d3b7764b43b813e5178e86))
-* ✨ 支持 harmony next 自定义 tabbar ([f71e8ba](https://github.com/wot-ui/wot-starter/commit/f71e8ba62504a4c0b79d02e61979b52e1f538e59))
-
-## 1.0.0 (2025-10-28)
+### [0.1.3](https://gitee.com/fant-mini/uni-mini-router/compare/v0.1.2...v0.1.3) (2023-07-07)
 
 
 ### 🐛 Bug Fixes | Bug 修复
 
-* 🐛 修复分包路由未注册的问题 ([3da843b](https://github.com/wot-ui/wot-starter/commit/3da843ba33bf62d2a8032dabf3061b2ce87e46a9))
+* 🐛 修复前置导航守卫非async时失效的问题 ([024ea1e](https://gitee.com/fant-mini/uni-mini-router/commit/024ea1e00b2257a5a6cd1d0ac20b22aa9b2095bf))
+
+### [0.1.2](https://gitee.com/fant-mini/uni-mini-router/compare/v0.1.1...v0.1.2) (2023-07-06)
 
 
-### ✏️ Documentation | 文档
+### 🐛 Bug Fixes | Bug 修复
 
-* ✏️  更新 README ([a630274](https://github.com/wot-ui/wot-starter/commit/a63027496f9f75e8106437bf7e4285164a7f91b1))
-* ✏️  更新README ([abde3bc](https://github.com/wot-ui/wot-starter/commit/abde3bca57cbee293d0751dd6f273366425e2474))
-* ✏️  添加分包示例 ([809b65b](https://github.com/wot-ui/wot-starter/commit/809b65b8384029d9ed2c7807709023d65bf6bb4c))
-* **README:** ✏️ 更新 vitesse-uni-app 项目链接 ([#11](https://github.com/wot-ui/wot-starter/issues/11)) ([6f1585a](https://github.com/wot-ui/wot-starter/commit/6f1585a6da97a9aeed4071125e6b618f30a50bb7))
+* 🐛 修复在前置导航守卫中使用async/await导致无法跳转的问题 ([f385b9e](https://gitee.com/fant-mini/uni-mini-router/commit/f385b9e5558a7174de05174031666574870282d4))
+
+### [0.1.1](https://gitee.com/fant-mini/uni-mini-router/compare/v0.1.0...v0.1.1) (2023-05-31)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 🐛 修复当前路由信息修改后会影响路由表信息的问题 ([c8f076e](https://gitee.com/fant-mini/uni-mini-router/commit/c8f076e0cd41f26788d2f8f76fda18eed8fd759c))
+
+## [0.1.0](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.12...v0.1.0) (2023-05-31)
 
 
 ### ✨ Features | 新功能
 
-* ✨ 全局反馈组件兼容支付宝小程序 ([7f04d43](https://github.com/wot-ui/wot-starter/commit/7f04d43d44b6eaedabcf32d6c5842b056a0ac8ba))
-* ✨ 新增主题切换示例 ([#4](https://github.com/wot-ui/wot-starter/issues/4)) ([c39e756](https://github.com/wot-ui/wot-starter/commit/c39e756821b08ba9934c88f5576d6eabda8fd449))
-* ✨ 引入 @uni-ku/root 解决使用 page-meta 和根组件的问题 ([989e9fd](https://github.com/wot-ui/wot-starter/commit/989e9fd05a9c5a3b103608c941e5e30040a19f32))
-* ✨ 引入 uni-echarts 支持图表功能，增加分包异步化示例 ([f933a61](https://github.com/wot-ui/wot-starter/commit/f933a6143d5fe02783ade63c669001245970756e))
-* ✨ 引入 vite-plugin-uni-pages 的 definePage 宏，优化开发体验 ([498df4f](https://github.com/wot-ui/wot-starter/commit/498df4f26b1a84e8e91827178167ff853ae1f1a9))
-* 升级 uni-echarts 版本 ([#17](https://github.com/wot-ui/wot-starter/issues/17)) ([af94964](https://github.com/wot-ui/wot-starter/commit/af9496440e440afae589277c12999644ccfffe3e))
+* ✨ 优化 useRoute 的取值逻辑，新增在onShow周期更新route的逻辑 ([3b6bb8e](https://gitee.com/fant-mini/uni-mini-router/commit/3b6bb8e776a35872f0261c78482f9bf2e00e4f87))
+
+
+### ✏️ Documentation | 文档
+
+* ✏️  更新README中模板的名称 ([4bc38a3](https://gitee.com/fant-mini/uni-mini-router/commit/4bc38a33bb4ef4a1157348078ad1ee1d6b5250ef))
+* ✏️  增加联系方式 ([9d581bb](https://gitee.com/fant-mini/uni-mini-router/commit/9d581bba7b5b178eedd475a931081098d6dd1fbe))
+* ✏️  增加使用uni-parse-pages生成路由表的文档 ([9fb63af](https://gitee.com/fant-mini/uni-mini-router/commit/9fb63afc8e02246db5440df898a6ac398d551ad7))
+* ✏️  增加线上文档的地址 ([a14fd70](https://gitee.com/fant-mini/uni-mini-router/commit/a14fd70fffbc856d72c60d58a876628af36fe443))
+
+### [0.0.12](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.11...v0.0.12) (2023-05-10)
+
+
+### ✏️ Documentation | 文档
+
+* ✏️  增加支持AutoImport的文档，导出interfaces类型文件 ([a5f88f6](https://gitee.com/fant-mini/uni-mini-router/commit/a5f88f6785c9770eb8a1930f261ee9681b3f2c9b))
+
+
+### 🚀 Chore | 构建/工程依赖/工具
+
+* 🚀 新增.versionrc文件 ([4c09ce2](https://gitee.com/fant-mini/uni-mini-router/commit/4c09ce2ea9cbe154ad0996d10977d68873468862))
+
+### [0.0.11](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.10...v0.0.11) (2023-05-08)
+
+### [0.0.10](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.9...v0.0.10) (2023-05-08)
+
+
+### Bug Fixes
+
+* 🐛 修复全局后置守卫to和from都指向当前路由信息的问题 ([af71619](https://gitee.com/fant-mini/uni-mini-router/commit/af7161983768d69ca7ff420ffeb80e905af121ae))
+* 🐛 修复全局前置导航守卫next无法指向跳转类型不同的页面的问题 ([53b51ac](https://gitee.com/fant-mini/uni-mini-router/commit/53b51acff62c0179a757b493ab0521d0e8a35811))
+
+### [0.0.9](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.8...v0.0.9) (2023-05-06)
+
+### [0.0.8](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.7...v0.0.8) (2023-05-06)
+
+
+### Bug Fixes
+
+* 🐛 修复未配置导航守卫时无法跳转的问题 ([a646f52](https://gitee.com/fant-mini/uni-mini-router/commit/a646f52b31285fad51d4f0c9e5b188711d140269))
+
+### [0.0.7](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.6...v0.0.7) (2023-04-27)
+
+
+### Features
+
+* ✨ router.back方法入参改为可选参数 ([1924288](https://gitee.com/fant-mini/uni-mini-router/commit/1924288b9910685300f584380f5bf1ced6822490))
+
+### [0.0.6](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.5...v0.0.6) (2023-04-27)
+
+
+### Features
+
+* ✨ 新增 useRoute 方法用于获取当前路由信息 ([def969e](https://gitee.com/fant-mini/uni-mini-router/commit/def969e2bf338ec3e0eeb6db45039d6a0d102258))
+
+### [0.0.5](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.4...v0.0.5) (2023-04-23)
+
+
+### Features
+
+* ✨ 支持query和params传参，路由信息增加query和params ([dbe3222](https://gitee.com/fant-mini/uni-mini-router/commit/dbe322274e48f59e92332df38073d6d8f088a993))
+
+### [0.0.4](https://gitee.com/fant-mini/uni-mini-router/compare/v0.0.3...v0.0.4) (2023-04-04)
+
+### [0.0.3](https://gitee.com/fant-mini/uni-read-pages-vite/compare/v0.0.2...v0.0.3) (2023-04-03)
+
+
+### Bug Fixes
+
+* 🐛 修复使用async导致支付宝小程序页面白屏的问题 ([d2437fb](https://gitee.com/fant-mini/uni-read-pages-vite/commit/d2437fb41b505bb9ed4dc34db777a15f9fae4280))
+
+### [0.0.2](https://gitee.com/fant-mini/uni-read-pages-vite/compare/v0.0.1...v0.0.2) (2023-03-31)
+
+
+### Features
+
+* ✨ 新增支持beforeEach和afterEach两个全局导航守卫 ([9691171](https://gitee.com/fant-mini/uni-read-pages-vite/commit/96911711605bb8d6522c042a5720fbacdb50c1d8))
+
+### 0.0.1 (2023-03-13)
+
+
+### Features
+
+* ✨ 支持vue3+vite搭建的uni-app项目实现类vue-router的路由调用 ([a68ebe5](https://gitee.com/fant-mini/uni-read-pages-vite/commit/a68ebe5c58966143edc592e762f001e51d2510d8))

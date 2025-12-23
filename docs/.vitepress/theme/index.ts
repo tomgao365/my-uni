@@ -1,12 +1,3 @@
-/*
- * @Author: weisheng
- * @Date: 2024-10-12 22:09:33
- * @LastEditTime: 2025-12-11 19:07:41
- * @LastEditors: weisheng
- * @Description:
- * @FilePath: /wot-starter/docs/.vitepress/theme/index.ts
- * 记得注释
- */
 import ElementPlus, { ElMessageBox } from 'element-plus'
 import Theme from 'vitepress/theme'
 import { h } from 'vue'

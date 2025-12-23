@@ -1,0 +1,60 @@
+{
+  "name": "@my-uni/router",
+  "version": "0.1.6",
+  "description": "Lightweight router for uni-app, monorepo subpackage.",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "unpkg": "dist/index.global.js",
+  "jsdelivr": "dist/index.global.js",
+  "packageManager": "pnpm@9.9.0",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "lint": "eslint --fix --ext .json,.js,.ts src"
+  },
+  "license": "MIT",
+  "keywords": [
+    "uni-app",
+    "router",
+    "uni-mini-router",
+    "@my-uni/router"
+  ],
+  "peerDependencies": {
+    "vue": "~3.4.38"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@dcloudio/types": "^3.4.12",
+    "@types/node": "^20.16.2",
+    "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "@typescript-eslint/parser": "^5.54.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "git-cz": "^4.9.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4",
+    "rimraf": "^4.4.0",
+    "standard-version": "^9.5.0",
+    "ts-jest": "^29.0.5",
+    "tsdown": "^0.18.2",
+    "typescript": "~5.5.4"
+  }
+}

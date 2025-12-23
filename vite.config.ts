@@ -1,3 +1,12 @@
+/*
+ * @Author: weisheng
+ * @Date: 2025-12-22 14:19:12
+ * @LastEditTime: 2025-12-22 20:13:06
+ * @LastEditors: weisheng
+ * @Description:
+ * @FilePath: /my-uni/vite.config.ts
+ * 记得注释
+ */
 import process from 'node:process'
 import Uni from '@uni-helper/plugin-uni'
 import UniHelperComponents from '@uni-helper/vite-plugin-uni-components'
@@ -16,7 +25,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   base: './',
   optimizeDeps: {
-    exclude: process.env.NODE_ENV === 'development' ? ['wot-design-uni', 'uni-echarts'] : [],
+    exclude: process.env.NODE_ENV === 'development' ? ['wot-design-uni', 'uni-echarts', '@my-uni/router'] : [],
   },
   plugins: [
     // https://github.com/uni-helper/vite-plugin-uni-manifest
@@ -57,11 +66,11 @@ export default defineConfig({
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
       imports: ['vue', '@vueuse/core', 'pinia', 'uni-app', {
-        from: 'uni-mini-router',
-        imports: ['createRouter', 'useRouter', 'useRoute'],
-      }, {
         from: 'wot-design-uni',
         imports: ['useToast', 'useMessage', 'useNotify', 'CommonUtil'],
+      }, {
+        from: '@my-uni/router',
+        imports: ['createRouter', 'useRouter', 'useRoute'],
       }, {
         from: 'alova/client',
         imports: ['usePagination', 'useRequest'],
