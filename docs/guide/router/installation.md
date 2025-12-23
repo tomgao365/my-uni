@@ -8,16 +8,16 @@
 ## 安装路由包
 
 ::: code-group
+```bash [pnpm]
+pnpm add @wot-ui/router
+```
+
 ```bash [npm]
 npm i @wot-ui/router --save
 ```
 
 ```bash [yarn]
 yarn add @wot-ui/router
-```
-
-```bash [pnpm]
-pnpm add @wot-ui/router
 ```
 :::
 
