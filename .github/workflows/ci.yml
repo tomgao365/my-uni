@@ -66,6 +66,9 @@ jobs:
           timeout 30s pnpm dev:app-ios || true
           echo "✅ iOS dev mode test completed"
 
+      - name: Build Router Package
+        run: pnpm build:router
+
       - name: Build WeChat Mini Program
         run: pnpm build:mp-weixin
 
