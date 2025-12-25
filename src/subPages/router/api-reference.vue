@@ -177,7 +177,7 @@ function copyCode(code: string) {
           <view class="mb-3 text-3.5 text-gray-600 dark:text-[var(--wot-dark-color2)]">
             全局前置守卫，在导航触发前执行
           </view>
-          <view class="border border-gray-200 rounded-2 bg-gray-50 p-3 dark:border-[var(--wot-dark-border)] dark:bg-[var(--wot-dark-background3)]" @click="copyCode('router.beforeEach((to, from, next) => { next() })')">
+          <view class="border border-gray-200 rounded-2 bg-gray-50 p-3 dark:border-[var(--wot-dark-border)] dark:bg-[var(--wot-dark-background3)]" @click="copyCode(&quot;router.beforeEach((to, from, next) => { next() })&quot;)">
             <text class="text-3 text-gray-700 font-mono dark:text-[var(--wot-dark-color)]">
               router.beforeEach((to, from, next) => { next() })
             </text>
@@ -191,7 +191,7 @@ function copyCode(code: string) {
           <view class="mb-3 text-3.5 text-gray-600 dark:text-[var(--wot-dark-color2)]">
             全局后置钩子，在导航成功完成后执行
           </view>
-          <view class="border border-gray-200 rounded-2 bg-gray-50 p-3 dark:border-[var(--wot-dark-border)] dark:bg-[var(--wot-dark-background3)]" @click="copyCode('router.afterEach((to, from) => { console.log(to) })')">
+          <view class="border border-gray-200 rounded-2 bg-gray-50 p-3 dark:border-[var(--wot-dark-border)] dark:bg-[var(--wot-dark-background3)]" @click="copyCode(&quot;router.afterEach((to, from) => { console.log(to) })&quot;)">
             <text class="text-3 text-gray-700 font-mono dark:text-[var(--wot-dark-color)]">
               router.afterEach((to, from) => { console.log(to) })
             </text>
