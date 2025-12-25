@@ -56,7 +56,7 @@ function pushWithObjectParams() {
   }
   router.push({
     name: 'essentials-params',
-    params: { user: encodeURIComponent(JSON.stringify(user)) },
+    params: { user: JSON.stringify(user) },
   })
   showSuccess({ msg: '传递对象参数(params)' })
 }
@@ -68,7 +68,7 @@ function pushWithObjectQuery() {
   }
   router.push({
     path: '/subPages/router/essentials-params',
-    query: { user: encodeURIComponent(JSON.stringify(user)) },
+    query: { user: JSON.stringify(user) },
   })
   showSuccess({ msg: '传递对象参数(query)' })
 }
@@ -222,7 +222,7 @@ function copyCode(code: string) {
             传递对象参数
           </view>
           <view class="mb-3 text-3.5 text-gray-600 leading-relaxed dark:text-[var(--wot-dark-color2)]">
-            URL有长度限制，复杂对象需要使用 encodeURIComponent 编码
+            URL有长度限制，复杂对象需要使用 JSON.stringify 转换成字符串传递
           </view>
           <view class="grid grid-cols-2 mb-3 gap-2">
             <wd-input v-model="userName" placeholder="姓名" />

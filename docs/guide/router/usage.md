@@ -101,8 +101,7 @@ onLoad((option) => {
 </script>
 ```
 ### 传递对象参数
-url有长度限制，太长的字符串会传递失败，可改用[窗体通信](https://uniapp.dcloud.net.cn/tutorial/page.html#%E9%A1%B5%E9%9D%A2%E9%80%9A%E8%AE%AF)、[全局变量](https://ask.dcloud.net.cn/article/35021)，另外参数中出现空格等特殊字符时需要对参数进行编码，如下为使用encodeURIComponent对参数进行编码的示例。
-
+url有长度限制，太长的字符串会传递失败，可改用[窗体通信](https://uniapp.dcloud.net.cn/tutorial/page.html#%E9%A1%B5%E9%9D%A2%E9%80%9A%E8%AE%AF)、[全局变量](https://ask.dcloud.net.cn/article/35021)。
 ```ts
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -117,10 +116,10 @@ const user = {
 }
 
 // 命名的路由，传递对象参数
-router.push({ name: 'user', params: { user: encodeURIComponent(JSON.stringify(user)) } })
+router.push({ name: 'user', params: { user: JSON.stringify(user) } })
 
 // path+query，传递对象参数
-router.push({ path: '/user', query: { user: encodeURIComponent(JSON.stringify(user)) } })
+router.push({ path: '/user', query: { user: JSON.stringify(user) } })
 
 </script>
 ```

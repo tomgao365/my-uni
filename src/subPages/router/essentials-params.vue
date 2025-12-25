@@ -15,7 +15,6 @@ const decodedUser = ref(null)
 onLoad((option) => {
   console.log('onLoad option:', option)
   receivedParams.value = option || {}
-
   if (option && option.user) {
     try {
       decodedUser.value = JSON.parse(decodeURIComponent(option.user))
