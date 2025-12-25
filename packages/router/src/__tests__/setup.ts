@@ -21,28 +21,33 @@ interface Page {
 
 let mockPages: Page[] = []
 
-const navigateToMock = vi.fn(({ url }: { url: string }) => {
+const navigateToMock = vi.fn(({ url, success, _fail }: { url: string, success?: () => void, _fail?: (error: any) => void }) => {
   const path = url.split('?')[0]
   mockPages.push({ route: path, $page: { fullPath: url } })
+  success?.()
 })
 
-const redirectToMock = vi.fn(({ url }: { url: string }) => {
+const redirectToMock = vi.fn(({ url, success, _fail }: { url: string, success?: () => void, _fail?: (error: any) => void }) => {
   const path = url.split('?')[0]
   mockPages.push({ route: path, $page: { fullPath: url } })
+  success?.()
 })
 
-const switchTabMock = vi.fn(({ url }: { url: string }) => {
+const switchTabMock = vi.fn(({ url, success, _fail }: { url: string, success?: () => void, _fail?: (error: any) => void }) => {
   const path = url.split('?')[0]
   mockPages.push({ route: path, $page: { fullPath: url } })
+  success?.()
 })
 
-const reLaunchMock = vi.fn(({ url }: { url: string }) => {
+const reLaunchMock = vi.fn(({ url, success, _fail }: { url: string, success?: () => void, _fail?: (error: any) => void }) => {
   const path = url.split('?')[0]
   mockPages = [{ route: path, $page: { fullPath: url } }]
+  success?.()
 })
 
-const navigateBackMock = vi.fn(({ delta = 1 }: { delta?: number }) => {
+const navigateBackMock = vi.fn(({ delta = 1, success, _fail }: { delta?: number, success?: () => void, _fail?: (error: any) => void }) => {
   mockPages = mockPages.slice(0, -delta)
+  success?.()
 })
 
 const uniMock = {

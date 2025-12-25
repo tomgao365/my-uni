@@ -66,14 +66,14 @@ describe('createRouter - 路由器创建', () => {
       const router = createRouter({ routes })
       await router.push('/pages/index')
 
-      expect(uni.navigateTo).toHaveBeenCalledWith({ url: '/pages/index' })
+      expect(uni.navigateTo).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/index' }))
     })
 
     it('应该处理查询参数', async () => {
       const router = createRouter({ routes })
       await router.push({ path: '/pages/index', query: { id: '1', name: 'test' } })
 
-      expect(uni.navigateTo).toHaveBeenCalledWith({ url: '/pages/index?id=1&name=test' })
+      expect(uni.navigateTo).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/index?id=1&name=test' }))
     })
 
     it('应该在导航后更新 currentRoute', async () => {
@@ -89,7 +89,7 @@ describe('createRouter - 路由器创建', () => {
       const router = createRouter({ routes })
       await router.replace('/pages/index')
 
-      expect(uni.redirectTo).toHaveBeenCalledWith({ url: '/pages/index' })
+      expect(uni.redirectTo).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/index' }))
     })
   })
 
@@ -98,7 +98,7 @@ describe('createRouter - 路由器创建', () => {
       const router = createRouter({ routes })
       await router.replaceAll('/pages/index')
 
-      expect(uni.reLaunch).toHaveBeenCalledWith({ url: '/pages/index' })
+      expect(uni.reLaunch).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/index' }))
     })
   })
 
@@ -107,7 +107,7 @@ describe('createRouter - 路由器创建', () => {
       const router = createRouter({ routes })
       await router.pushTab('/pages/index')
 
-      expect(uni.switchTab).toHaveBeenCalledWith({ url: '/pages/index' })
+      expect(uni.switchTab).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/index' }))
     })
   })
 
@@ -139,14 +139,14 @@ describe('createRouter - 路由器创建', () => {
       const router = createRouter({ routes })
       await router.push({ path: '/pages/index', navType: 'replace' })
 
-      expect(uni.redirectTo).toHaveBeenCalledWith({ url: '/pages/index' })
+      expect(uni.redirectTo).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/index' }))
     })
 
     it('应该使用路由对象中的 navType 进行 Tab 切换', async () => {
       const router = createRouter({ routes })
       await router.push({ path: '/pages/index', navType: 'pushTab' })
 
-      expect(uni.switchTab).toHaveBeenCalledWith({ url: '/pages/index' })
+      expect(uni.switchTab).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/index' }))
     })
   })
 })

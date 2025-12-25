@@ -58,7 +58,7 @@ describe('router guards - 路由守卫', () => {
       router.beforeEach(guard)
       await router.push('/pages/index')
 
-      expect(uni.navigateTo).toHaveBeenCalledWith({ url: '/pages/user' })
+      expect(uni.navigateTo).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/user' }))
     })
 
     it('应该支持返回 Promise 的异步守卫', async () => {
@@ -82,7 +82,7 @@ describe('router guards - 路由守卫', () => {
       router.beforeEach(guard)
       await router.push('/pages/index')
 
-      expect(uni.navigateTo).toHaveBeenCalledWith({ url: '/pages/user' })
+      expect(uni.navigateTo).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/user' }))
     })
 
     it('应该按顺序执行多个守卫', async () => {
@@ -223,7 +223,7 @@ describe('router guards - 路由守卫', () => {
 
       await router.push('/pages/detail')
 
-      expect(uni.navigateTo).toHaveBeenCalledWith({ url: '/pages/index' })
+      expect(uni.navigateTo).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/index' }))
     })
   })
 })
