@@ -130,8 +130,56 @@ describe('router guards - 路由守卫', () => {
   })
 
   describe('afterEach - 后置守卫', () => {
-    it('应该在导航后执行 afterEach 守卫', async () => {
+    // Helper to setup router with lifecycle mocking
+    function createRouterWithLifecycle(routes: RouteRecordRaw[]) {
       const router = createRouter({ routes })
+
+      // Mock app to capture mixin
+      let capturedMixin: any = null
+      const app: any = {
+        provide: vi.fn(),
+        config: { globalProperties: {} },
+        mixin: (mixin: any) => {
+          capturedMixin = mixin
+        },
+      }
+      router.install(app)
+
+      // Override uni.navigateTo to trigger lifecycle
+      uni.navigateTo = vi.fn(({ url, success }) => {
+        const routePath = url.startsWith('/') ? url.slice(1) : url
+        const mockPage = {
+          route: routePath,
+          $page: { fullPath: url },
+        };
+        (globalThis as any).getCurrentPages = () => [mockPage]
+
+        if (capturedMixin && capturedMixin.onLoad) {
+          capturedMixin.onLoad.call({ $mpType: 'page' })
+        }
+        success?.()
+      }) as any
+
+      // Also mock redirectTo for redirect tests
+      uni.redirectTo = vi.fn(({ url, success }) => {
+        const routePath = url.startsWith('/') ? url.slice(1) : url
+        const mockPage = {
+          route: routePath,
+          $page: { fullPath: url },
+        };
+        (globalThis as any).getCurrentPages = () => [mockPage]
+
+        if (capturedMixin && capturedMixin.onLoad) {
+          capturedMixin.onLoad.call({ $mpType: 'page' })
+        }
+        success?.()
+      }) as any
+
+      return router
+    }
+
+    it('应该在导航后执行 afterEach 守卫', async () => {
+      const router = createRouterWithLifecycle(routes)
       const guard = vi.fn()
 
       router.afterEach(guard)
@@ -141,7 +189,7 @@ describe('router guards - 路由守卫', () => {
     })
 
     it('应该传递正确的 to 和 from 参数', async () => {
-      const router = createRouter({ routes })
+      const router = createRouterWithLifecycle(routes)
       const guard = vi.fn()
 
       router.afterEach(guard)
@@ -154,7 +202,7 @@ describe('router guards - 路由守卫', () => {
     })
 
     it('应该在导航取消时不执行', async () => {
-      const router = createRouter({ routes })
+      const router = createRouterWithLifecycle(routes)
       const beforeGuard = vi.fn(() => false)
       const afterGuard = vi.fn()
 
@@ -167,7 +215,7 @@ describe('router guards - 路由守卫', () => {
     })
 
     it('应该在重定向后执行', async () => {
-      const router = createRouter({ routes })
+      const router = createRouterWithLifecycle(routes)
       const beforeGuard = vi.fn(() => '/pages/user')
       const afterGuard = vi.fn()
 
@@ -182,7 +230,7 @@ describe('router guards - 路由守卫', () => {
     })
 
     it('应该允许移除守卫', async () => {
-      const router = createRouter({ routes })
+      const router = createRouterWithLifecycle(routes)
       const guard = vi.fn()
 
       const removeGuard = router.afterEach(guard)
@@ -194,8 +242,31 @@ describe('router guards - 路由守卫', () => {
   })
 
   describe('combined guards - 组合守卫', () => {
+    // Helper to setup router with lifecycle mocking (same as above)
+    function createRouterWithLifecycle(routes: RouteRecordRaw[]) {
+        const router = createRouter({ routes })
+        let capturedMixin: any = null
+        const app: any = {
+          provide: vi.fn(),
+          config: { globalProperties: {} },
+          mixin: (mixin: any) => { capturedMixin = mixin },
+        }
+        router.install(app)
+
+        const mockNavigate = ({ url, success }: any) => {
+          const routePath = url.startsWith('/') ? url.slice(1) : url
+          const mockPage = { route: routePath, $page: { fullPath: url } };
+          (globalThis as any).getCurrentPages = () => [mockPage]
+          if (capturedMixin?.onLoad) capturedMixin.onLoad.call({ $mpType: 'page' })
+          success?.()
+        }
+        uni.navigateTo = vi.fn(mockNavigate) as any
+        uni.redirectTo = vi.fn(mockNavigate) as any
+        return router
+      }
+
     it('应该按正确顺序执行 beforeEach 和 afterEach', async () => {
-      const router = createRouter({ routes })
+      const router = createRouterWithLifecycle(routes)
       const executionOrder: string[] = []
 
       router.beforeEach(() => {
@@ -212,7 +283,7 @@ describe('router guards - 路由守卫', () => {
     })
 
     it('应该处理认证守卫模式', async () => {
-      const router = createRouter({ routes })
+      const router = createRouterWithLifecycle(routes)
       let isLoggedIn = false
 
       router.beforeEach((to) => {
@@ -224,6 +295,59 @@ describe('router guards - 路由守卫', () => {
       await router.push('/pages/detail')
 
       expect(uni.navigateTo).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/index' }))
+    })
+  })
+
+  describe('bug fixes - 问题修复', () => {
+    it('router.push 触发时，onLoad 不应重复触发 afterEach', async () => {
+      const router = createRouter({ routes })
+      const afterEachSpy = vi.fn()
+      router.afterEach(afterEachSpy)
+
+      // Mock app to capture mixin
+      let capturedMixin: any = null
+      const app: any = {
+        provide: vi.fn(),
+        config: { globalProperties: {} },
+        mixin: (mixin: any) => {
+          capturedMixin = mixin
+        },
+      }
+      router.install(app)
+
+      // Override uni.navigateTo to simulate race condition
+      uni.navigateTo = vi.fn(({ url, success }) => {
+        // 1. Simulate page stack update so syncRouteFromPage sees the new page
+        // We override getCurrentPages to return the target page
+        // Note: uni-app routes usually don't have leading slash, but we handle it
+        const routePath = url.startsWith('/') ? url.slice(1) : url
+
+        const mockPage = {
+          route: routePath,
+          $page: { fullPath: url },
+        };
+
+        (globalThis as any).getCurrentPages = () => [mockPage]
+
+        // 2. Simulate onLoad firing immediately (while router.push is still executing)
+        if (capturedMixin && capturedMixin.onLoad) {
+          // Call onLoad with context
+          capturedMixin.onLoad.call({ $mpType: 'page' })
+        }
+
+        // 3. Call success to allow router.push to proceed
+        success?.()
+      }) as any
+
+      await router.push('/pages/index')
+
+      // Expect afterEach to be called exactly once
+      // If bug exists, it would be 2
+      expect(afterEachSpy).toHaveBeenCalledTimes(1)
+
+      // Verify it was called with correct args
+      const to = afterEachSpy.mock.calls[0][0]
+      expect(to.path).toBe('/pages/index')
     })
   })
 })

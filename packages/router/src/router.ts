@@ -162,13 +162,12 @@ export function createRouter(options: RouterOptions): Router {
     try {
       await performUniNavigate(finalType, url)
 
-      // 3. 更新当前路由 (注意：uni-app 页面栈变化后会自动触发 onLoad/onShow，这里主要是为了保持状态同步)
-      // 实际上 uni-app 的路由变化是异步的，这里更新可能早于页面加载
-      // 可以在 App.mixin 中再次校准
-      currentRoute.value = targetLocation
+      // 3. 更新当前路由
+      // 这里移除主动更新，完全依赖 syncRouteFromPage (页面 onLoad/onShow) 来更新状态
+      // 这样可以避免 API 跳转和页面生命周期双重触发 afterEach 的问题
 
       // 4. 执行后置守卫
-      afterGuards.forEach(guard => guard(targetLocation, fromLocation))
+      // 移至 syncRouteFromPage 中触发，确保页面加载完成后执行
 
       return Promise.resolve()
     }
@@ -328,7 +327,7 @@ export function createRouter(options: RouterOptions): Router {
       // 避免重复更新
       const newPath = `/${page.route}`
 
-      // 如果当前路由已经是最新路径，则跳过更新（避免 API 跳转时重复触发）
+      // 如果当前路由已经是最新路径，则跳过更新（避免重复触发）
       if (router.currentRoute.value.path === newPath) {
         return
       }

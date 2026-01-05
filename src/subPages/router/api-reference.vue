@@ -80,8 +80,8 @@ function copyCode(code: string) {
         </view>
         <view class="mb-3 border border-gray-200 rounded-2 bg-gray-50 p-3 dark:border-[var(--wot-dark-border)] dark:bg-[var(--wot-dark-background3)]" @click="copyCode('const route = useRoute()\nconst currentPath = computed(() => route.path)')">
           <text class="text-3 text-gray-700 font-mono dark:text-[var(--wot-dark-color)]">
-            const route = useRoute()
-            const currentPath = computed(() => route.path)
+            {{ `const route = useRoute()
+            const currentPath = computed(() => route.path)` }}
           </text>
         </view>
       </view>

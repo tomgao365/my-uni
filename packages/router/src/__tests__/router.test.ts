@@ -15,6 +15,39 @@ describe('createRouter - 路由器创建', () => {
     ]
   })
 
+  // 辅助函数：创建带有生命周期模拟的路由器
+  function createRouterWithLifecycle(routes: RouteRecordRaw[]) {
+    const router = createRouter({ routes })
+
+    // 模拟 app 以捕获 mixin
+    let capturedMixin: any = null
+    const app: any = {
+      provide: vi.fn(),
+      config: { globalProperties: {} },
+      mixin: (mixin: any) => {
+        capturedMixin = mixin
+      },
+    }
+    router.install(app)
+
+    const mockNavigate = ({ url, success }: any) => {
+      const routePath = url.startsWith('/') ? url.slice(1) : url
+      const mockPage = { route: routePath, $page: { fullPath: url } };
+      (globalThis as any).getCurrentPages = () => [mockPage]
+      if (capturedMixin?.onLoad) {
+        capturedMixin.onLoad.call({ $mpType: 'page' })
+      }
+      success?.()
+    }
+
+    uni.navigateTo = vi.fn(mockNavigate) as any
+    uni.redirectTo = vi.fn(mockNavigate) as any
+    uni.reLaunch = vi.fn(mockNavigate) as any
+    uni.switchTab = vi.fn(mockNavigate) as any
+
+    return router
+  }
+
   describe('router instance - 路由器实例', () => {
     it('应该创建包含路由配置的路由器实例', () => {
       const router = createRouter({ routes })
@@ -77,7 +110,7 @@ describe('createRouter - 路由器创建', () => {
     })
 
     it('应该在导航后更新 currentRoute', async () => {
-      const router = createRouter({ routes })
+      const router = createRouterWithLifecycle(routes)
       await router.push('/pages/index')
 
       expect(router.currentRoute.value.path).toBe('/pages/index')

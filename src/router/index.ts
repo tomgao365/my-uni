@@ -1,7 +1,7 @@
 /*
  * @Author: weisheng
  * @Date: 2025-12-22 14:19:12
- * @LastEditTime: 2025-12-24 22:16:39
+ * @LastEditTime: 2026-01-05 20:15:50
  * @LastEditors: weisheng
  * @Description:
  * @FilePath: /my-uni/src/router/index.ts
@@ -32,6 +32,11 @@ const router = createRouter({
 })
 router.beforeEach((to, from, next) => {
   console.log('🚀 beforeEach 守卫触发:', { to, from })
+
+  if (to.name === 'advanced-beforeeach') {
+    const { show: showToast } = useGlobalToast()
+    showToast('beforeEach 钩子已触发！')
+  }
 
   // 演示：基本的导航日志记录
   if (to.path && from.path) {
