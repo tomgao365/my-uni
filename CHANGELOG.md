@@ -1,6 +1,13 @@
 # 更新日志 
 
 
+### [1.1.2](https://github.com/wot-ui/my-uni/compare/v1.1.1...v1.1.2) (2026-01-05)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 🐛 修复 afterEach 重复触发的问题 ([0f4c5d5](https://github.com/wot-ui/my-uni/commit/0f4c5d5d1ae236310a887148dc922e3460e2ac7b))
+
 ### [1.1.1](https://github.com/wot-ui/my-uni/compare/v1.1.0...v1.1.1) (2026-01-05)
 
 
