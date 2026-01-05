@@ -1,6 +1,13 @@
 # 更新日志 
 
 
+### [1.1.1](https://github.com/wot-ui/my-uni/compare/v1.1.0...v1.1.1) (2026-01-05)
+
+
+### ✨ Features | 新功能
+
+* ✨ 调整 useRoute 的返回值为 reactive 类型 ([c602c2c](https://github.com/wot-ui/my-uni/commit/c602c2cf9e96867ba180c82ff5d59fddf8fa6126))
+
 ## [1.1.0](https://github.com/wot-ui/my-uni/compare/v1.0.0...v1.1.0) (2025-12-25)
 
 
