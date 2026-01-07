@@ -165,6 +165,14 @@ var _hmt = _hmt || [];
               { text: '常见问题', link: '/guide/router/common-problems' },
             ],
           },
+          {
+            text: 'wot-ui-intellisense',
+            collapsed: false,
+            items: [
+              { text: '快速上手', link: '/guide/intellisense/usage' },
+            ],
+          },
+
         ],
       },
     ],
