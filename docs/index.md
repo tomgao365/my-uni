@@ -36,7 +36,7 @@ features:
     linkText: "查看 uni-mini-ci 插件"
 
   - title: wot-ui intellisense
-    details: 支持 APP、H5、微信小程序 等平台。
+    details: 一个为 Wot UI 组件库提供智能提示的 VS Code 插件，由 Wot UI 团队维护。
     icon: 🚀
     link: "./guide/intellisense/usage"
     linkText: "查看 wot-ui intellisense 插件"
